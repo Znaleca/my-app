@@ -228,78 +228,84 @@ export default function Home() {
 
           <div className="flex flex-col items-center gap-8">
             
-            {/* Image Section */}
-            <AnimatePresence mode="wait">
-              {!accepted ? (
-                <motion.div
-                  key="question-img"
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0.8, opacity: 0, rotate: -10 }}
-                  transition={{ duration: 0.5 }}
-                  className="relative"
-                >
-                  <motion.div animate={{ y: [0, -12, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}>
-                    <Image src="/images/cinna.png" alt="Cinnamoroll Asking" width={240} height={240} priority className="drop-shadow-2xl" />
-                  </motion.div>
+            {/* Image Section - 3D FLIP TRANSITION */}
+            <div className="relative" style={{ perspective: "1000px" }}>
+              <AnimatePresence mode="wait">
+                {!accepted ? (
                   <motion.div
-                    className="absolute -right-2 top-4 text-sky-400"
-                    animate={{ y: [0, -15, 0], opacity: [0, 1, 0], scale: [0.8, 1, 0.8] }}
-                    transition={{ duration: 2.5, repeat: Infinity }}
+                    key="question-img"
+                    // --- 3D Exit: Rotate 90deg on Y axis ---
+                    initial={{ rotateY: 0, opacity: 1 }}
+                    exit={{ rotateY: 90, opacity: 1 }}
+                    transition={{ duration: 0.3, ease: "easeIn" }}
+                    className="relative origin-center preserve-3d"
                   >
-                    <HeartIcon className="w-8 h-8" />
+                    <motion.div animate={{ y: [0, -12, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}>
+                      <Image src="/images/cinna.png" alt="Cinnamoroll Asking" width={240} height={240} priority className="drop-shadow-2xl" />
+                    </motion.div>
+                    <motion.div
+                      className="absolute -right-2 top-4 text-sky-400"
+                      animate={{ y: [0, -15, 0], opacity: [0, 1, 0], scale: [0.8, 1, 0.8] }}
+                      transition={{ duration: 2.5, repeat: Infinity }}
+                    >
+                      <HeartIcon className="w-8 h-8" />
+                    </motion.div>
                   </motion.div>
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="success-img"
-                  initial={{ scale: 0.5, opacity: 0, rotate: 10 }}
-                  animate={{ scale: 1.2, opacity: 1, rotate: 0 }}
-                  transition={{ type: "spring", stiffness: 200, damping: 15 }}
-                  className="relative"
-                >
-                  <Image src="/images/Cinnamoroll.png" alt="Happy Cinnamoroll" width={280} height={280} priority className="drop-shadow-2xl" />
-                  <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.2 }} className="absolute -top-4 -right-4 text-pink-400 w-10 h-10">
-                      <HeartIcon />
-                   </motion.div>
-                  <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.4 }} className="absolute bottom-0 -left-6 text-sky-400 w-8 h-8">
-                      <HeartIcon />
-                   </motion.div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                ) : (
+                  <motion.div
+                    key="success-img"
+                    // --- 3D Enter: Start from -90deg and spin to 0 ---
+                    initial={{ rotateY: -90, opacity: 1 }}
+                    animate={{ rotateY: 0, opacity: 1 }}
+                    transition={{ duration: 0.5, type: "spring", stiffness: 200, damping: 20 }}
+                    className="relative origin-center preserve-3d"
+                  >
+                    <Image src="/images/Cinnamoroll.png" alt="Happy Cinnamoroll" width={280} height={280} priority className="drop-shadow-2xl" />
+                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.2 }} className="absolute -top-4 -right-4 text-pink-400 w-10 h-10">
+                        <HeartIcon />
+                     </motion.div>
+                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.4 }} className="absolute bottom-0 -left-6 text-sky-400 w-8 h-8">
+                        <HeartIcon />
+                     </motion.div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
 
             {/* Text Content */}
             <div className="space-y-4">
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="inline-flex items-center gap-2 rounded-full bg-sky-100 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-sky-600"
-              >
-                <SparkleIcon className="w-3 h-3" />
-                {accepted ? "Celebration Time!" : "Special Invite"}
-                <SparkleIcon className="w-3 h-3" />
-              </motion.div>
+              <AnimatePresence mode="wait">
+                <motion.div 
+                    key={accepted ? "success-text" : "ask-text"}
+                    // --- Slide Up Transition (No Fade) ---
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: -20, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex flex-col items-center gap-4"
+                >
+                    <div className="inline-flex items-center gap-2 rounded-full bg-sky-100 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-sky-600">
+                        <SparkleIcon className="w-3 h-3" />
+                        {accepted ? "Celebration Time!" : "Special Invite"}
+                        <SparkleIcon className="w-3 h-3" />
+                    </div>
 
-              <motion.h1 layout className="font-serif text-4xl font-extrabold leading-tight text-sky-950 md:text-6xl">
-                {accepted ? "I Love You Bebi!" : "Will you be my Valentine?"}
-              </motion.h1>
+                    <h1 className="font-serif text-4xl font-extrabold leading-tight text-sky-950 md:text-6xl">
+                        {accepted ? "I Love You Bebi!" : "Will you be my Valentine?"}
+                    </h1>
 
-              {!accepted && (
-                <p className="text-lg text-slate-500 md:text-xl font-medium">
-                  Say yes… because ‘no’ isn’t allowed 😉
-                </p>
-              )}
+                    {!accepted && (
+                        <p className="text-lg text-slate-500 md:text-xl font-medium">
+                        Say yes… because ‘no’ isn’t allowed 😉
+                        </p>
+                    )}
+                </motion.div>
+              </AnimatePresence>
             </div>
 
             {/* Buttons Area */}
             {!accepted && (
               <div className="flex flex-wrap items-center justify-center gap-6 mt-4 relative z-20">
-                {/* UPDATED YES BUTTON: 
-                  - Default: Sky Blue Gradient
-                  - Hover: RED Gradient + Red Shadow
-                  - Transition: Smooth color fade
-                */}
                 <motion.button
                   whileHover={{ y: -2 }} 
                   whileTap={{ scale: 0.95 }}
@@ -314,21 +320,19 @@ export default function Home() {
                   onClick={handleAccept}
                   className="relative group px-12 py-5 bg-gradient-to-br from-sky-400 to-blue-600 hover:from-red-500 hover:to-rose-600 text-white rounded-full font-extrabold text-2xl shadow-[0px_10px_30px_rgba(56,189,248,0.6)] hover:shadow-[0px_10px_30px_rgba(225,29,72,0.6)] border-[6px] border-white overflow-visible transition-all duration-300"
                 >
-                  {/* Gloss Shine */}
                   <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-1/2 bg-gradient-to-b from-white/40 to-transparent rounded-full blur-[2px]" />
-                  
                   <span className="relative flex items-center gap-3 drop-shadow-sm">
                     YES <HeartIcon className="w-8 h-8 fill-sky-100 group-hover:fill-rose-100 animate-pulse transition-colors duration-300" />
                   </span>
                 </motion.button>
 
                 {!noMoved && (
-                   <motion.button
-                     onMouseEnter={moveNoButton}
-                     className="rounded-full border border-sky-100 bg-white/90 backdrop-blur-sm px-10 py-4 text-xl font-bold text-slate-400 shadow-lg hover:bg-sky-50 transition-colors whitespace-nowrap"
-                   >
-                     No
-                   </motion.button>
+                    <motion.button
+                      onMouseEnter={moveNoButton}
+                      className="rounded-full border border-sky-100 bg-white/90 backdrop-blur-sm px-10 py-4 text-xl font-bold text-slate-400 shadow-lg hover:bg-sky-50 transition-colors whitespace-nowrap"
+                    >
+                      No
+                    </motion.button>
                 )}
               </div>
             )}
