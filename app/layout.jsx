@@ -10,9 +10,8 @@ const quicksand = Quicksand({
 });
 
 export const metadata = {
-  title: "Bernard Lanz — Web Developer & Designer",
-  description:
-    "Portfolio of Bernard Lanz, showcasing full-stack web development, IT support, and creative design projects.",
+  title: "from lanz",
+  description: "invitation for valentines",
 };
 
 export default function RootLayout({ children }) {

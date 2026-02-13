@@ -228,17 +228,17 @@ export default function Home() {
 
           <div className="flex flex-col items-center gap-8">
             
-            {/* Image Section - 3D FLIP TRANSITION */}
-            <div className="relative" style={{ perspective: "1000px" }}>
-              <AnimatePresence mode="wait">
+            {/* Image Section - POP / SPRING ANIMATION CHANGE */}
+            <div className="relative h-64 w-64">
+              <AnimatePresence mode="popLayout">
                 {!accepted ? (
                   <motion.div
                     key="question-img"
-                    // --- 3D Exit: Rotate 90deg on Y axis ---
-                    initial={{ rotateY: 0, opacity: 1 }}
-                    exit={{ rotateY: 90, opacity: 1 }}
-                    transition={{ duration: 0.3, ease: "easeIn" }}
-                    className="relative origin-center preserve-3d"
+                    // --- Exit: Scale Down & Fade Out ---
+                    initial={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0, opacity: 0, rotate: -20 }}
+                    transition={{ duration: 0.3, ease: "backIn" }}
+                    className="absolute inset-0 flex items-center justify-center"
                   >
                     <motion.div animate={{ y: [0, -12, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}>
                       <Image src="/images/cinna.png" alt="Cinnamoroll Asking" width={240} height={240} priority className="drop-shadow-2xl" />
@@ -254,19 +254,19 @@ export default function Home() {
                 ) : (
                   <motion.div
                     key="success-img"
-                    // --- 3D Enter: Start from -90deg and spin to 0 ---
-                    initial={{ rotateY: -90, opacity: 1 }}
-                    animate={{ rotateY: 0, opacity: 1 }}
-                    transition={{ duration: 0.5, type: "spring", stiffness: 200, damping: 20 }}
-                    className="relative origin-center preserve-3d"
+                    // --- Enter: Bouncy Scale Up (Spring) ---
+                    initial={{ scale: 0, rotate: 20 }}
+                    animate={{ scale: 1, rotate: 0 }}
+                    transition={{ type: "spring", stiffness: 260, damping: 20 }}
+                    className="absolute inset-0 flex items-center justify-center"
                   >
                     <Image src="/images/Cinnamoroll.png" alt="Happy Cinnamoroll" width={280} height={280} priority className="drop-shadow-2xl" />
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.2 }} className="absolute -top-4 -right-4 text-pink-400 w-10 h-10">
                         <HeartIcon />
-                     </motion.div>
+                      </motion.div>
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.4 }} className="absolute bottom-0 -left-6 text-sky-400 w-8 h-8">
                         <HeartIcon />
-                     </motion.div>
+                      </motion.div>
                   </motion.div>
                 )}
               </AnimatePresence>
