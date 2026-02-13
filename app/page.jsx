@@ -296,11 +296,12 @@ export default function Home() {
             {!accepted && (
               <div className="flex flex-wrap items-center justify-center gap-6 mt-4 relative z-20">
                 {/* UPDATED YES BUTTON: 
-                  - Color: Sky Blue gradient (from-sky-400 to-blue-600)
-                  - Hover: No blur, just lift and brightness
+                  - Default: Sky Blue Gradient
+                  - Hover: RED Gradient + Red Shadow
+                  - Transition: Smooth color fade
                 */}
                 <motion.button
-                  whileHover={{ y: -2, filter: "brightness(1.1)" }} 
+                  whileHover={{ y: -2 }} 
                   whileTap={{ scale: 0.95 }}
                   animate={{ 
                     scale: [1, 1.05, 1],
@@ -311,13 +312,13 @@ export default function Home() {
                     default: { duration: 2.5, repeat: Infinity, ease: "easeInOut" }
                   }}
                   onClick={handleAccept}
-                  className="relative group px-12 py-5 bg-gradient-to-br from-sky-400 to-blue-600 text-white rounded-full font-extrabold text-2xl shadow-[0px_10px_30px_rgba(56,189,248,0.6)] border-[6px] border-white overflow-visible"
+                  className="relative group px-12 py-5 bg-gradient-to-br from-sky-400 to-blue-600 hover:from-red-500 hover:to-rose-600 text-white rounded-full font-extrabold text-2xl shadow-[0px_10px_30px_rgba(56,189,248,0.6)] hover:shadow-[0px_10px_30px_rgba(225,29,72,0.6)] border-[6px] border-white overflow-visible transition-all duration-300"
                 >
                   {/* Gloss Shine */}
                   <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-1/2 bg-gradient-to-b from-white/40 to-transparent rounded-full blur-[2px]" />
                   
                   <span className="relative flex items-center gap-3 drop-shadow-sm">
-                    YES <HeartIcon className="w-8 h-8 fill-sky-100 animate-pulse" />
+                    YES <HeartIcon className="w-8 h-8 fill-sky-100 group-hover:fill-rose-100 animate-pulse transition-colors duration-300" />
                   </span>
                 </motion.button>
 
